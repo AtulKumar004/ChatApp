@@ -1,6 +1,13 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { loginRoute } from "../../utils/APIRoutes";
+import { useNavigate } from 'react-router-dom';
+
+
 
 const Login = () => {
+  const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     email: "",
     password: "",
@@ -17,10 +24,28 @@ const Login = () => {
     e.preventDefault();
     const { email, password } = loginInfo;
     if (!email || !password) {
-      alert("Please fill all the fields");
+      toast.warn("Please fill all the fields");
+
       return;
     }
-    console.log("handleSubmit ==>" ,loginInfo )
+    let payload=  {
+      email, 
+      password
+
+    }
+
+    axios.post(loginRoute ,payload ).then((res) => {
+      if(res?.status >= 200 && res?.status <= 299){
+        toast.success("Login Successful");
+        console.log("Login data ==> ", res?.data)
+        localStorage.setItem("token", res?.data?.token);
+        navigate("/");
+      }else{
+        toast.error("Login Failed");
+      }
+    }).catch((err) => {
+      console.log("Error => ", err);
+    })
   };
   return (
     <div class="flex items-center min-h-screen p-4 bg-gray-100 lg:justify-center">

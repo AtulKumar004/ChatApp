@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { registerRoute } from "../../utils/APIRoutes";
 
 const Register = () => {
   const [userInputs, setUserInputs] = useState({
@@ -31,11 +34,29 @@ const Register = () => {
 
     const { firstName, lastName, email, password, c_password } = userInputs;
     if (!isValidate()) {
-      alert("Please fill all the fields");
+      toast.warn("Please fill all the fields");
+
       return;
     }
 
-    console.log("handleSubmit ===>" ,userInputs )
+    let payload = {
+      firstName,
+      lastName,
+      email,
+      password,
+   
+    };
+
+    axios
+      .post(registerRoute, payload)
+      .then((res) => {
+        console.log("user Resister Data ===>" , res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    
   };
   return (
     <div class="font-mono bg-gray-400">
