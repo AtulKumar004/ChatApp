@@ -5,9 +5,9 @@ import userImage from "../../Assests/dumy_user.jpg";
 
 const styles = {
   cont: "card__cont",
-  user_image: "card__cont__user_image",
-  user_name: "card__cont__user_name",
-  user_Lmessage: "card__cont__user_Lmessage",
+  user_image: "user_image",
+  user_name: "user_name",
+  user_Lmessage: "user_Lmessage",
 };
 
 const UserCards = () => {
