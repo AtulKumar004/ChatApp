@@ -1,0 +1,48 @@
+.chat_message {
+  &__cont {
+    display: flex;
+    flex-direction: column;
+  }
+  &__header,
+  &__footer {
+    min-height: 5rem;
+    background-color: #f0f2f5;
+    padding: 1rem;
+    
+  
+  }
+  &__footer{
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 1rem;
+    font-size: 1.6rem;
+    input{
+        flex-grow: 1;
+        outline: none;
+        border: none;
+        padding: 1rem;
+        border-radius: 0.6rem;
+    }
+}
+  &__body {
+    flex-grow: 1;
+    overflow-y: auto;
+    background-image: url("../../Assests/whatappBG.jpg"); /* Background image URL */
+    background-position: center; /* Position the background image in the center */
+    background-size: contain;
+  }
+}
+.EmojiPickerReact {
+   
+    position: absolute !important;
+    bottom: 6rem;
+}
+.isClick{
+    transform: rotate(45deg) scale(1.26);
+    background-color: #d9dbdf;
+    padding: 0.2rem;
+    border-radius: 50%;
+
+}
+

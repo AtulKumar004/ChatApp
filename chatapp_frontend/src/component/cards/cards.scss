@@ -1,0 +1,36 @@
+.card {
+  &__cont {
+    display: flex;
+    cursor: pointer;
+
+    padding: 1rem;
+    padding-bottom: 0;
+    gap: 2rem;
+
+  
+
+  }
+  &__cont:hover {
+    background-color: #f0f2f5;
+  }
+}
+
+.user_Lmessage {
+  font-size: 1.3rem;
+  color: #667781;
+}
+.user_name {
+  font-size: 1.7rem;
+  color: #111b21;
+}
+.user_image {
+  width: 5.5rem;
+  height: 5.5rem;
+  margin-bottom: 1rem;
+  img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

@@ -6,12 +6,14 @@ import Login from "./pages/auth/login";
 import UserInfoUpdate from "./pages/userScreen/userUpdate";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Home from "./pages/auth/home/home";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} /> 
           <Route path="/user_update" element={<UserInfoUpdate />} />
