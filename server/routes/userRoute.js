@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../model/userModal");
 const bcrypt = require("bcrypt");
-const { generateToken , protectRoute } = require("./authHelper");
+const { generateToken, protectRoute } = require("./authHelper");
 
 router.post("/register", async (req, res) => {
   try {
@@ -12,32 +12,33 @@ router.post("/register", async (req, res) => {
     if (emailCheck) {
       return res.status(400).json({
         message: "Email already exists",
-        status: false
+        status: false,
       });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
+    let user = await User.create({
       firstName,
       lastName,
       email,
       password: hashedPassword,
     });
+    user = await User.findById(user._id).select("-password");
 
     const token = generateToken(user);
 
     delete user.password;
     return res.status(200).json({
       message: "User created successfully",
-      data : user,
+      data: user,
       token,
-      status: true
+      status: true,
     });
   } catch (error) {
     console.log("Error in register", error);
     return res.status(500).json({
       message: "Internal server error",
-      status: false
+      status: false,
     });
   }
 });
@@ -45,55 +46,58 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
         message: "Invalid credentials",
-        status: false
+        status: false,
       });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({
         message: "Invalid credentials",
-        status: false
+        status: false,
       });
-    } 
+    }
 
     const token = generateToken(user);
+    user = await User.findById(user._id).select("-password");
     return res.status(200).json({
       message: "User logged in",
-      data : user,
+      data: user,
       token,
-      status: true
+      status: true,
     });
   } catch (error) {
     console.log("Error in login", error);
     return res.status(500).json({
       message: "Internal server error",
-      status: false
+      status: false,
+      error
     });
   }
 });
-router.get('/user', protectRoute, async (req, res) => {
-   try {
-      // Fetch user data using the userId from the request object
-      const user = await User.findById(req.userId).select('-password'); // Exclude the password from the response
-      
-      if (!user) {
-         return res.status(404).json({ message: 'User not found' , status: false});
-      }
-      console.log("getUser ===>", user);
- 
-     return res.status(200).json({
+router.get("/user", protectRoute, async (req, res) => {
+  try {
+    // Fetch user data using the userId from the request object
+    const user = await User.findById(req.userId).select("-password"); // Exclude the password from the response
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found", status: false });
+    }
+    console.log("getUser ===>", user);
+
+    return res.status(200).json({
       message: "Execution successfully",
-      data : user,
-      status : true,
-   
+      data: user,
+      status: true,
     });
-   } catch (error) {
-     res.status(500).json({ message: 'Server error',  status: false });
-   }
- });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", status: false });
+  }
+});
+
+
 
 module.exports = router;

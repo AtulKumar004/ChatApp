@@ -52,15 +52,15 @@ app.post("/api/upload", (req, res) => {
 app.use("/api/auth", userRoutes);
 
 mongoose
-  .connect(process.env.MONGO_URL, {
+  .connect("mongodb://localhost:27017/chat", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("DB connection Successful");
+    console.log("=======================DB connection Successful=============");
   })
   .catch((err) => {
-    console.log(err.message);
+    console.log("Error : ",err.message);
   });
 
 const server = app.listen(process.env.PORT, () => {
